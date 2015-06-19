@@ -17,8 +17,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *photos;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (weak, nonatomic) IBOutlet UIView *tableFooterView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadView;
 
 @end
 
@@ -27,24 +25,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"-> viewDidLoad");
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
+
     // refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
     
     // infinite load
-//    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIScreen  mainScreen].bounds.size.width,50)];
-//    UIActivityIndicatorView *loadView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    [loadView startAnimating];
-//    loadView.center = tableFooterView.center;
-//    [tableFooterView addSubview:loadView];
-//    self.tableView.tableFooterView = tableFooterView;
-    [self.loadView startAnimating];
-    self.tableView.tableFooterView = self.tableFooterView;
-    
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIScreen  mainScreen].bounds.size.width,50)];
+    UIActivityIndicatorView *loadView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [loadView startAnimating];
+    loadView.center = tableFooterView.center;
+    [tableFooterView addSubview:loadView];
+    self.tableView.tableFooterView = tableFooterView;
+
     [self queryInstagramAPI];
 }
 
@@ -76,7 +73,6 @@
     PhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
     NSDictionary *photo = self.photos[[indexPath row]];
     NSString *urlString = [photo valueForKeyPath:@"images.standard_resolution.url"];
-    //NSLog(@"%@", urlString);
     [cell.mainPhotoView setImageWithURL:[NSURL URLWithString:urlString]];
     return cell;
 }
