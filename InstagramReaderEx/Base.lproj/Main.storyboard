@@ -20,6 +20,20 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="464" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aA1-OB-ZKg">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="tlK-X1-yTD">
+                                    <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gsO-lG-gA8">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="gsO-lG-gA8" secondAttribute="centerX" id="ddh-rI-SFP"/>
+                                        <constraint firstAttribute="centerY" secondItem="gsO-lG-gA8" secondAttribute="centerY" id="o45-Ls-okK"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="photoCell" rowHeight="464" id="zB1-8I-hWN" customClass="PhotoCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -50,6 +64,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Instagram" id="mog-M0-lkr"/>
                     <connections>
+                        <outlet property="loadView" destination="gsO-lG-gA8" id="Xic-jL-kNN"/>
+                        <outlet property="tableFooterView" destination="tlK-X1-yTD" id="XZL-Kh-j7E"/>
                         <outlet property="tableView" destination="aA1-OB-ZKg" id="1m6-lY-RQM"/>
                     </connections>
                 </viewController>

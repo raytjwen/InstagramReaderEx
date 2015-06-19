@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *photos;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIView *tableFooterView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadView;
 
 @end
 
@@ -28,9 +30,20 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
+    // refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
+    // infinite load
+//    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIScreen  mainScreen].bounds.size.width,50)];
+//    UIActivityIndicatorView *loadView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    [loadView startAnimating];
+//    loadView.center = tableFooterView.center;
+//    [tableFooterView addSubview:loadView];
+//    self.tableView.tableFooterView = tableFooterView;
+    [self.loadView startAnimating];
+    self.tableView.tableFooterView = self.tableFooterView;
     
     [self queryInstagramAPI];
 }
