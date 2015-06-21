@@ -42,6 +42,8 @@
     [tableFooterView addSubview:loadView];
     self.tableView.tableFooterView = tableFooterView;
 
+    
+    
     self.photos = [[NSArray alloc] init];
     [self queryInstagramAPI];
 }
@@ -72,6 +74,23 @@
     //return [self.photos count];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    NSDictionary *photo = self.photos[section];
+    NSString *urlString = [photo valueForKeyPath:@"user.profile_picture"];
+    
+    UIView *sectionHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 50)];
+    UIImageView *profilePhotoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [profilePhotoView setImageWithURL:[NSURL URLWithString:urlString]];
+    [sectionHeaderView addSubview:profilePhotoView];
+    profilePhotoView.center = sectionHeaderView.center;
+    
+    return sectionHeaderView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 50;
+}
+
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
@@ -88,7 +107,6 @@
     
     return cell;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
