@@ -20,4 +20,8 @@
     // Configure the view for the selected state
 }
 
+- (void) prepareForReuse {
+    [self.mainPhotoView setImage:[UIImage imageNamed:@"defaultLoading"]];
+}
+
 @end

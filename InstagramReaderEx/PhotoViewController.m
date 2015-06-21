@@ -63,13 +63,13 @@
     }];
 }
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return [self.photos count];
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [self.photos count];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //return 1;
-    return [self.photos count];
+    return 1;
+    //return [self.photos count];
 }
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
@@ -77,11 +77,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
-    NSDictionary *photo = self.photos[[indexPath row]];
+    NSDictionary *photo = self.photos[[indexPath section]];
     NSString *urlString = [photo valueForKeyPath:@"images.standard_resolution.url"];
     [cell.mainPhotoView setImageWithURL:[NSURL URLWithString:urlString]];
     
-    if ([self.photos count] == [indexPath row] + 1) {
+    if ([self.photos count] == [indexPath section] + 1) {
         // last cell so load new photos
         [self queryInstagramAPI];
     }
