@@ -42,6 +42,7 @@
     [tableFooterView addSubview:loadView];
     self.tableView.tableFooterView = tableFooterView;
 
+    self.photos = [[NSArray alloc] init];
     [self queryInstagramAPI];
 }
 
@@ -54,15 +55,20 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        self.photos = dict[@"data"];
-        self.photos = [self.photos subarrayWithRange:NSMakeRange(0, 2)];
+        NSArray *newPhotos = dict[@"data"];
+        self.photos = [self.photos arrayByAddingObjectsFromArray:[newPhotos subarrayWithRange:NSMakeRange(0, 2)]];
         
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
     }];
 }
 
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return [self.photos count];
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    //return 1;
     return [self.photos count];
 }
 
@@ -74,6 +80,12 @@
     NSDictionary *photo = self.photos[[indexPath row]];
     NSString *urlString = [photo valueForKeyPath:@"images.standard_resolution.url"];
     [cell.mainPhotoView setImageWithURL:[NSURL URLWithString:urlString]];
+    
+    if ([self.photos count] == [indexPath row] + 1) {
+        // last cell so load new photos
+        [self queryInstagramAPI];
+    }
+    
     return cell;
 }
 
